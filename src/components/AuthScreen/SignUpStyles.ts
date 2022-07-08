@@ -19,18 +19,19 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 2,
         borderColor: "#20232a",
-        width: 250,
-        borderRadius: 6,
+        width: '75%',
+        borderRadius: 5,
         color: "#20232a",
         textAlign: "center",
         // fontSize: 10,
+
         marginBottom: 10
     },
     signInButtonContainer: {
-        flex: 1,
-        marginBottom: 1,
-        width: 290,
-        marginTop: 50
+         flex: 1,
+         width: windowWidth,
+         marginTop: '40%',
+         marginBottom: 1
 
     },
     signInButton: {
