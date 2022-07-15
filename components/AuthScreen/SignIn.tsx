@@ -95,30 +95,30 @@ const signIn: FC = () => {
                                             style={styles.input}
                                             onChangeText={(input) => setState({ ...state, email: input })}
                                             value={state.email}
-                                            placeholder="Enter your Email"
+                                            placeholder="Enter mobile number Or Email"
                                             placeholderTextColor="black"
                                         />
-                                        <TextInput
+                                        {/* <TextInput
                                             style={styles.input}
                                             onChangeText={(input) => setState({ ...state, password: input })}
                                             value={state.password}
                                             placeholder="Enter your password"
                                             secureTextEntry
                                             placeholderTextColor="black"
-                                        />
+                                        /> */}
                                         <View style={styles.signInButtonContainer}>
                                             <TouchableOpacity
                                                 style={styles.signInButton}
 
                                                 onPress={onPressSignIn}
                                             >
-                                                <Text style={styles.signInBottomTitle}>SignIn</Text>
+                                                <Text style={styles.signInBottomTitle}>Sign In</Text>
                                             </TouchableOpacity>
                                             <TouchableOpacity
                                                 style={styles.signInButton}
                                                 onPress={onPressSignUp}
                                             >
-                                                <Text style={styles.signInBottomTitle}>SignUp </Text>
+                                                <Text style={styles.signInBottomTitle}>Create Account</Text>
                                             </TouchableOpacity>
 
                                         </View>

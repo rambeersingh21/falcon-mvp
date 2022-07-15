@@ -1,4 +1,4 @@
-import { StyleSheet,Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -7,8 +7,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         padding: 20,
-        backgroundColor: "white", flex: 1, alignItems: "center",
-        height: windowHeight, resizeMode: 'contain', width: windowWidth, padding: 100
+        backgroundColor: "white",
+        height: windowHeight,
+        resizeMode: 'contain', 
+        width: windowWidth
     },
 
     input: {

@@ -9,30 +9,34 @@ const styles = StyleSheet.create({
         overflow: "scroll",
         flex: 1,
         alignItems: 'center',
-        paddingTop: 200,
-        padding: 20,
-        backgroundColor: "white", flex: 1, alignItems: "center", height: windowHeight, resizeMode: 'contain', width: windowWidth
+        paddingTop: '40%',
+        padding: 1,
+        backgroundColor: "white",
+        height: windowHeight, 
+        resizeMode: 'contain', 
+        width: windowWidth
     },
     signInBottomTitle: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 25,
         color: "black"
     }
     ,
     input: {
         borderWidth: 2,
         borderColor: "#20232a",
-        width: 300,
-        borderRadius: 6,
+        width: '85%',
+        padding: '2%',
+        borderRadius: 5,
         color: "#20232a",
         textAlign: "center",
         // fontSize: 10,
-        marginBottom: 10
+        // marginBottom: 10
     },
     signInButtonContainer: {
         flex: 1,
-        justifyContent: 'flex-end',
-        marginBottom: 10,
+        justifyContent: "flex-end",
+        marginBottom: '0%',
         width: windowWidth,
 
     },

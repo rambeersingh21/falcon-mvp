@@ -9,9 +9,12 @@ const styles = StyleSheet.create({
         overflow: "scroll",
         flex: 1,
         alignItems: 'center',
-        paddingTop: 200,
-        padding: 20,
-        backgroundColor: "white", flex: 1, alignItems: "center", height: windowHeight, resizeMode: 'contain', width: windowWidth
+        paddingTop: '5%',
+        padding: '5%',
+        backgroundColor: "white", 
+        height: windowHeight, 
+        resizeMode: 'contain', 
+        width: windowWidth
     },
     signInBottomTitle: {
         fontWeight: 'bold',
@@ -22,7 +25,7 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 2,
         borderColor: "#20232a",
-        width: 300,
+        width: windowWidth,
         borderRadius: 6,
         color: "#20232a",
         textAlign: "center",
@@ -32,9 +35,8 @@ const styles = StyleSheet.create({
     signInButtonContainer: {
         flex: 1,
         justifyContent: 'flex-end',
-        marginBottom: 10,
+        marginBottom: '1%',
         width: windowWidth,
-
     },
     signInButton: {
         alignItems: "center",

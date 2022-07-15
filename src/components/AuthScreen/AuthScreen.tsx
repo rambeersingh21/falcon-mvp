@@ -59,7 +59,7 @@ const SignUp:FC<any> = (props) => {
                     <>
                         {props.signUp ?
                             <>
-                                <Text style={{ marginTop: -50, marginBottom: 20, fontWeight: "bold", fontSize: 30, letterSpacing: 4, color: "black", }}>Falcon</Text>
+                                <Text style={{ marginTop: '1%', marginBottom: 20, fontWeight: "bold", fontSize: 40, letterSpacing: 4, color: "black", }}>Falcon</Text>
 
 
                                 <TextInput
@@ -97,14 +97,14 @@ const SignUp:FC<any> = (props) => {
                                     placeholder="Enter your Email"
                                     placeholderTextColor="black"
                                 />
-                                <TextInput
+                                {/* <TextInput
                                     style={styles.input}
                                     onChangeText={(input) => setState({ ...state, password: input })}
                                     value={state.password}
                                     placeholder="Enter your password"
                                     secureTextEntry
                                     placeholderTextColor="black"
-                                />
+                                /> */}
 
                                 <View style={styles.signInButtonContainer}>
                                     <>
@@ -118,7 +118,7 @@ const SignUp:FC<any> = (props) => {
                                             style={styles.signInButton}
                                             onPress={onPressBackSignIn}
                                         >
-                                            <Text style={styles.signInBottomTitle}>Back to SignIn</Text>
+                                            <Text style={styles.signInBottomTitle}>Sign In</Text>
                                         </TouchableOpacity>
                                     </>
                                 </View>

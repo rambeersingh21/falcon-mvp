@@ -118,7 +118,7 @@ const SignUp:FC<any> = (props) => {
                                             style={styles.signInButton}
                                             onPress={onPressBackSignIn}
                                         >
-                                            <Text style={styles.signInBottomTitle}>Back to SignIn</Text>
+                                            <Text style={styles.signInBottomTitle}>Sign In</Text>
                                         </TouchableOpacity>
                                     </>
                                 </View>

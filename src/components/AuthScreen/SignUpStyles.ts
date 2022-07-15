@@ -7,32 +7,32 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: "white", flex: 1, alignItems: "center",
-        height: windowHeight, resizeMode: 'contain', width: windowWidth
+        backgroundColor: "white",
+        height: windowHeight, 
+        resizeMode: 'contain', 
+        width: windowWidth
     },
     signInBottomTitle: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 25,
         color: "black"
     }
     ,
     input: {
         borderWidth: 2,
-        borderColor: "#20232a",
+        padding: 6,
         width: '75%',
         borderRadius: 5,
         color: "#20232a",
         textAlign: "center",
-        // fontSize: 10,
-
         marginBottom: 10
     },
     signInButtonContainer: {
          flex: 1,
          width: windowWidth,
-         marginTop: '40%',
-         marginBottom: 1
-
+         marginTop: '5%',
+         marginBottom: 1,
+         bottom:5,
     },
     signInButton: {
         alignItems: "center",
