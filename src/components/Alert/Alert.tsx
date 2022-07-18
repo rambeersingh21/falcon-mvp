@@ -20,16 +20,14 @@ const Alert: FC<any> = (props) => {
   const onPressClose = async () => {
     props.onPressCloseDialog();
     props.getVerificationCode(code);
-    if(code && cognitoUser){
-      console.log(cognitoUser);
-    }
+  
 
   }
 
   useEffect(() => {
     async () => {
       const cognitoUser = await AsyncStorage.getItem("cognitoUser");
-      console.log(cognitoUser)
+   
       if (cognitoUser) {
         setCognitoUser(cognitoUser);
       }

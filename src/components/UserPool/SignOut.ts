@@ -3,6 +3,9 @@ import {
     CognitoUser,
 } from 'amazon-cognito-identity-js';
 
+import { LoginSuccess } from '../../redux/actions/Login/Login';
+import store from '../../store/store';
+
 export const signOutUser = (email) => {
     const poolData = {
         UserPoolId: 'us-east-1_rMWEjJxCj',
@@ -15,6 +18,7 @@ export const signOutUser = (email) => {
         Pool: userPool,
     };
     var cognitoUser = new CognitoUser(userData);
+    store.dispatch(LoginSuccess(false));
 
     cognitoUser.signOut();
 };

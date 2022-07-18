@@ -58,7 +58,7 @@ export const signUpUser = (state, setSignUpSuccess,setSignUpError) => {
             return;
         }
         let user = result.user;
-        console.log('user name is ' + JSON.stringify(user))
+       
         setSignUpSuccess('confirmSignUp');
     });
 };

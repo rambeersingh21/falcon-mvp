@@ -45,7 +45,7 @@ export const ResendConfirmationCode = (email) => {
             alert(err.message || JSON.stringify(err));
             return;
         }
-        console.log('resend: ' + result);
+        
         setLodaer(false);
     });
 };

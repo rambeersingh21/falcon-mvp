@@ -1,17 +1,18 @@
-import { useDispatch } from 'react-redux';
-import React, { useState, FC } from 'react';
+import React,{ useState,FC } from 'react';
 import * as AWS from 'aws-sdk/global';
 import {
     AuthenticationDetails,
     CognitoUser,
-    CognitoUserPool
+    CognitoUserPool,
 } from 'amazon-cognito-identity-js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LoginSuccess } from '../../redux/actions/Login/Login';
-import store from '../../store/store';
+import Alert from '../Alert/Alert';
+import prompt from 'react-native-prompt-android';
+import Dialog from 'react-native-dialog';
+import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
-export const signInUser = async (state, setSignInSuccess, setLodaer, setSignInError, setVisible,setSession, setUser) => {
-    console.log(state.email);
+export const signInUser = async (state, setSignInSuccess, setLodaer, setSignInError,setVisible, setSession, setUser) => {
+
     var authenticationData = {
         Username: state.email,
         Password: state.password,
@@ -29,15 +30,16 @@ export const signInUser = async (state, setSignInSuccess, setLodaer, setSignInEr
         Pool: userPool,
     };
     var cognitoUser = new CognitoUser(userData);
-    // await AsyncStorage.removeItem("cognitoUser");
-    // await AsyncStorage.setItem("cognitoUser", `${cognitoUser}`);
-    cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
+    await AsyncStorage.removeItem("cognitoUser");
+    await AsyncStorage.setItem("cognitoUser", `${cognitoUser}`);
+        cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
+    
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: async (result) => {
             var accessToken = result.getIdToken().getJwtToken();
             await AsyncStorage.removeItem("token");
             await AsyncStorage.setItem("token", accessToken);
-            await store.dispatch(LoginSuccess(true));
+            console.log("check user details lohin ", result);
             //POTENTIAL: Region needs to be set if not already set previously elsewhere.
             AWS.config.region = 'us-east-1';
 
@@ -68,31 +70,43 @@ export const signInUser = async (state, setSignInSuccess, setLodaer, setSignInEr
         },
 
         onFailure: async (err) => {
-            
-            await store.dispatch(LoginSuccess(false));
             setSignInSuccess('');
             setSignInError(err.message || JSON.stringify(err))
-            await AsyncStorage.setItem("signInError", err.message || JSON.stringify(err));
+            AsyncStorage.removeItem("loggedIn");
+            AsyncStorage.setItem("signInError", err.message || JSON.stringify(err));
             setLodaer(false);
-            await AsyncStorage.setItem("login", "false");
+            // alert(err.message || JSON.stringify(err))
         },
-
+        
+       
         customChallenge:  async(challengeParameters) => {
-            
             setVisible(true);
 
             setSession(challengeParameters);
             setUser(cognitoUser);
 
-        }
+            // const response = await AsyncStorage.getItem("vCode");
+            // console.log("Code >>",await AsyncStorage.getItem("vCode"));
 
+        //   setTimeout(async()=>{
+        //     console.log("cjdj",await AsyncStorage.getItem("vCode"));
+        //     cognitoUser.sendCustomChallengeAnswer
+        //   },500)
+          
+            // cognitoUser.sendCustomChallengeAnswer(response,this);
+            
+        },
+        
+      
     });
+    
+
 };
 
 
 export const verifyUser = async (verifyCode , cognitoVerifyUser, setSignInSuccess, setLodaer, setSignInError,setVisible, setVCode) => {
 
-
+    
 
     cognitoVerifyUser.sendCustomChallengeAnswer(verifyCode,{
         onSuccess: async (result) => {
@@ -101,7 +115,6 @@ export const verifyUser = async (verifyCode , cognitoVerifyUser, setSignInSucces
             var accessToken = result.getIdToken().getJwtToken();
             await AsyncStorage.removeItem("token");
             await AsyncStorage.setItem("token", accessToken);
-            await store.dispatch(LoginSuccess(true));
             // console.log("check user details login ", result);
             //POTENTIAL: Region needs to be set if not already set previously elsewhere.
             AWS.config.region = 'us-east-1';
@@ -114,7 +127,9 @@ export const verifyUser = async (verifyCode , cognitoVerifyUser, setSignInSucces
                         .getIdToken()
                         .getJwtToken(),
                 },
+
             });
+
             //refreshes credentials using AWS.CognitoIdentity.getCredentialsForIdentity()
             AWS.config.credentials.refresh(async (error) => {
                 if (error) {
@@ -131,7 +146,7 @@ export const verifyUser = async (verifyCode , cognitoVerifyUser, setSignInSucces
         },
 
         onFailure: async (err) => {
-            await store.dispatch(LoginSuccess(false));
+          
             setVisible(false);
             setSignInSuccess('');
             setSignInError(err.message || JSON.stringify(err))
@@ -147,12 +162,63 @@ export const verifyUser = async (verifyCode , cognitoVerifyUser, setSignInSucces
             setSignInError('Incorrect OTP');
             setLodaer(false);
 
-
-
+    
+          
             // cognitoUser.sendCustomChallengeAnswer(response,this);
-
+            
         }
 
     });
 
 };
+
+
+
+// handleLogin = (username, password) => {
+//     const authDetails = new AuthenticationDetails({
+//       Username: username,
+//       Password: password,
+//     });
+//     const userData = {
+//       Username: username,
+//       Pool: getUserPool(),
+//       Storage: getStorage(),
+//     };
+//     const cognitoUser = new CognitoUser(userData);
+//     cognitoUser.authenticateUser(authDetails, {
+//       onSuccess: () => {
+//         // login
+//       }
+//       newPasswordRequired: userAttr => {
+//         this.setState({
+//           isFirstLogin: true,
+//           user: cognitoUser,
+//           userAttr: userAttr,
+//         });
+//       },
+//     });
+//   };
+  
+//   changePassword = (newPassword) => {
+//     const cognitoUser = this.state.user;
+//     const userAttr = this.state.userAttr;
+//     cognitoUser.completeNewPasswordChallenge(newPassword, userAttr, {
+//       onSuccess: result => {
+//         // login
+//       }
+//     });
+//   };
+  
+//   render() {
+//     return (
+//       <div>
+//         {this.state.isFirstLogin ? (
+//           <NewPassswordForm changePassword={this.changePassword} />
+//         ) : (
+//           <LoginForm handleLogin={this.handleLogin} />
+//         )}
+//       </div>
+//     );
+//   }
+
+

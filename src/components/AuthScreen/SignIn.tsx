@@ -1,6 +1,6 @@
 import React, { useEffect, useState, FC } from "react";
 import { TouchableOpacity, Button, Dimensions, TextInput, StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
-import { signInUser } from '../UserPool/SignIn';
+import { signInUser , verifyUser} from '../UserPool/SignIn';
 import SignUp from "./AuthScreen";
 import HomeScreen from "../HomeScreen/HomeScreen";
 import Loder from '../Loader/Loder';
@@ -9,9 +9,11 @@ import styles from "./SignInStyles";
 import { CognitoUser } from 'amazon-cognito-identity-js';
 import { Auth, sectionHeader } from 'aws-amplify';
 import Dialog from 'react-native-dialog';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {userEmail} from '../../redux/actions/User/UserEmail';
+import { useDispatch } from "react-redux";
 
-const signIn: FC = () => {
+
+const signIn: FC = (props) => {
 
     const [state, setState] = useState({
         email: "",
@@ -26,6 +28,9 @@ const signIn: FC = () => {
     const [alertWarning, setAlertWarning] = useState(false);
     const [visible, setVisible] = useState(false);
     const [vCode, setVCode] = useState('');
+    const [session, setSession] = useState(null);
+    const [user, setUser] = useState(null);
+    const dispatch= useDispatch();
 
     const resetState = () => {
         setState({ email: "", phoneNumber: "" });
@@ -36,11 +41,19 @@ const signIn: FC = () => {
     // };
 
     const onPressSignIn = () => {
-        signInUser(state, setSignInSuccess, setLodaer, setSignInError, setVisible);
+        signInUser(state, setSignInSuccess, setLodaer, setSignInError, setVisible, setSession, setUser);
         setLodaer(true)
         setAlertWarning(true);
 
     };
+
+    const onPressOTP = () => {
+        verifyUser(vCode, user, setSignInSuccess, setLodaer, setSignInError, setVisible, setVCode);
+        setLodaer(true)
+        setAlertWarning(true);
+
+    };
+
     const onPressSignUp = () => {
         setSignUp(true);
     };
@@ -59,25 +72,10 @@ const signIn: FC = () => {
     };
 
     useEffect(() => {
-        // if(cognitoUser){
-        //     cognitoUser(vCode);
-        // }
-        console.log(vCode)
-        async () => {
-            await AsyncStorage.removeItem("vCode");
-            await AsyncStorage.setItem("vCode", vCode);
+        if(state.email){
+            dispatch(userEmail(state.email));
         }
-    }, [signInError, vCode]);
-
-    // const getVerificationCode=(code)=>{
-    //     console.log("signIN pa",code);
-    //     setVCode(code);
-    //     return code;
-    // }
-    const onPressCancel = () => {
-        setVisible(false);
-        setLodaer(false);
-    }
+    }, [state.email]);
 
 
     return (
@@ -126,15 +124,17 @@ const signIn: FC = () => {
                             }
                         </>
                     }
-                    {signInError && !loder ? <Alert onPressCloseDialog={onPressCloseDialog} alertWarning={alertWarning} error={signInError} /> : null}
                     <Dialog.Container visible={visible}>
-                        <Dialog.Title>Account delete</Dialog.Title>
+                        <Dialog.Title>Verify Account</Dialog.Title>
                         <Dialog.Description>
-                            Do you want to delete this account? You cannot undo this action.
+                            Provide Verification Code
                         </Dialog.Description>
                         <Dialog.Input onChangeText={text => setVCode(text)} />
-                        <Dialog.Button label="Cancel" onPress={() => onPressCancel()} />
+                        <Dialog.Button label="Enter OTP" onPress={() => onPressOTP()} />
                     </Dialog.Container>
+
+                    {signInError && !loder ? <Alert onPressCloseDialog={onPressCloseDialog} alertWarning={alertWarning} error={signInError} /> : null}
+                   
                 </View>
             </ScrollView>
         </SafeAreaView>
