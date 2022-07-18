@@ -13,8 +13,8 @@ import store from '../../store/store';
 export const signInUser = async (state, setSignInSuccess, setLodaer, setSignInError, setVisible,setSession, setUser) => {
     console.log(state.email);
     var authenticationData = {
-        Username: state.email,
-        Password: state.password,
+        Username: state.email
+        // Password: state.password
     };
     var authenticationDetails = new AuthenticationDetails(
         authenticationData
@@ -32,7 +32,7 @@ export const signInUser = async (state, setSignInSuccess, setLodaer, setSignInEr
     // await AsyncStorage.removeItem("cognitoUser");
     // await AsyncStorage.setItem("cognitoUser", `${cognitoUser}`);
     cognitoUser.setAuthenticationFlowType('CUSTOM_AUTH');
-    cognitoUser.authenticateUser(authenticationDetails, {
+    cognitoUser.initiateAuth(authenticationDetails, {
         onSuccess: async (result) => {
             var accessToken = result.getIdToken().getJwtToken();
             await AsyncStorage.removeItem("token");
@@ -131,6 +131,7 @@ export const verifyUser = async (verifyCode , cognitoVerifyUser, setSignInSucces
         },
 
         onFailure: async (err) => {
+            console.log("IN Error")
             await store.dispatch(LoginSuccess(false));
             setVisible(false);
             setSignInSuccess('');
